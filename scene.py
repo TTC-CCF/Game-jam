@@ -12,16 +12,18 @@ def next_phase(button):
         elif button.text == "Quit":
             pygame.event.post(pygame.event.Event(pygame.QUIT))
     elif Scene == "ChooseCharacters":
+        Scene = "Ready"
+    elif Scene == "Ready":
         Scene = "Battle"
 class Scene_base:
     def __init__(self):
-        pass
+        self.buttons = []
     def generate(self):
         pass
     def update(self):
-        pass
+        self.generate()
     def get_buttons(self):
-        pass
+        return self.buttons
     def handle_event(self, event):
         pass
 
@@ -36,7 +38,7 @@ class Menu(Scene_base):
         self.Qblock_y = self.Sblock_y+self.len+10
 
     def generate(self):
-        draw.generateText("Just brawl", self.Title_size, (config.win_width/2, 200))
+        draw.generateText("Just brawl", self.Title_size, (config.win_width/2, 200), (255,255,255))
         self.buttons = [draw.button("Start",(self.Sblock_x, self.Sblock_y), self.len),
                         draw.button("Quit", (self.Qblock_x, self.Qblock_y), self.len)]
     def hover_button(self):
@@ -49,8 +51,6 @@ class Menu(Scene_base):
 
     def update(self):
         self.generate()
-        for button in self.buttons:
-            button.draw()
         self.hover_button()
     
     def get_buttons(self):
@@ -74,8 +74,8 @@ class Choose(Scene_base):
         self.buttons = [draw.button("Press E to Ready", (config.win_width/4, config.win_length/5+self.text_size+330), 30),
                         draw.button("Press 1 to Ready", (config.win_width/4*3, config.win_length/5+self.text_size+330), 30)]
     def generate(self):
-        draw.generateText("Player 1:", self.text_size, (config.win_width/4, config.win_length/5))
-        draw.generateText("Player 2:", self.text_size, (config.win_width/4*3, config.win_length/5))
+        draw.generateText("Player 1:", self.text_size, (config.win_width/4, config.win_length/5), (255,255,255))
+        draw.generateText("Player 2:", self.text_size, (config.win_width/4*3, config.win_length/5), (255,255,255))
         draw.draw_block_wline((config.win_width/4, config.win_length/5+self.text_size+140), 250, 300, (255,255,255), 3)
         draw.draw_tri_wline((200,200,200), [(config.win_width/4-155, config.win_length/5+self.text_size+140), (config.win_width/4-130,config.win_length/5+self.text_size+130), (config.win_width/4-130,config.win_length/5+self.text_size+150)],2)
         draw.draw_tri_wline((200,200,200), [(config.win_width/4+155, config.win_length/5+self.text_size+140), (config.win_width/4+130,config.win_length/5+self.text_size+130), (config.win_width/4+130,config.win_length/5+self.text_size+150)],2)
@@ -90,7 +90,10 @@ class Choose(Scene_base):
     def update(self):
         self.generate()
         for button in self.buttons:
-            button.draw()
+            if button.clicked:
+                button.draw_clicked("Ready")
+            else:
+                button.draw()
         # print(self.buttons[0].clicked, self.buttons[1].clicked)
 
     def display_character(self):
@@ -127,7 +130,7 @@ class Choose(Scene_base):
                 self.change_character(1, 2)
             if event.key == pygame.K_e:
                 self.buttons[0].clicked = not self.buttons[0].clicked
-            if event.key == pygame.K_KP_1:
+            if event.key == pygame.K_KP_1 or event.key == pygame.K_1:
                 self.buttons[1].clicked = not self.buttons[1].clicked
         if self.clicked_button():
             changeScene = True
@@ -149,3 +152,26 @@ class Choose(Scene_base):
                 self.p2_character = 3
             else:
                 self.p2_character += lor
+class Ready(Scene_base):
+    def __init__(self):
+        super().__init__()
+        self.pos = (config.win_width/2, config.win_length/2)
+        self.wid = config.win_width-200
+        self.len = config.win_length//3
+        self.text = "Press Enter to Brawl!"
+        self.text_size = self.len-150
+    def generate(self):
+        draw.draw_block_wline(self.pos, self.wid, self.len, (255,255,255), 3)
+        draw.draw_block(self.pos, self.wid-200, self.len-100, (255,255,0))
+        draw.generateText(self.text, self.text_size, self.pos, (0,0,0))
+    def update(self):
+        super().update()
+    def get_buttons(self):
+        super().get_buttons
+    def handle_event(self, event):
+        changeScene = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
+                changeScene = True
+                next_phase(self.buttons)
+        return changeScene

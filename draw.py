@@ -16,8 +16,13 @@ class button:
     def draw(self):
         self.set_rend()
         screen.blit(self.rend, self.rect)
+    def draw_clicked(self, change_text):
+        self.set_text(change_text)
+        screen.blit(self.rend, self.rect)
     def set_rend(self):
         self.rend = pygame.font.Font(cf.textFont, self.size).render(self.text, True, self.get_color())
+    def set_text(self, change_text):
+        self.rend = pygame.font.Font(cf.textFont, self.size).render(change_text, True, (255,255,255))
     def get_color(self):
         if self.hover:
             return (150,150,150)
@@ -45,9 +50,9 @@ def draw_block_wline(pos, wid, len, color, l):
     _rect.center = pos     
     pygame.draw.rect(screen, color, _rect, l)
 
-def generateText(str, size, pos):
+def generateText(str, size, pos, color):
     fonts = pygame.font.Font(cf.textFont, size)
-    text = fonts.render(str, True, (255,255,255))
+    text = fonts.render(str, True, color)
     textRect = text.get_rect()
     textRect.center = pos
     screen.blit(text, textRect)
@@ -63,6 +68,8 @@ def draw_scene(Scene):
         s = scene.Menu()
     elif Scene == "ChooseCharacters":
         s = scene.Choose()
+    elif Scene == "Ready":
+        s = scene.Ready()
     elif Scene == "Battle":
         s = scene.Scene_base()
     s.generate()
