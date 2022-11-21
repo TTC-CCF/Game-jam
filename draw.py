@@ -44,23 +44,29 @@ def draw_block(pos, wid, len, color):
     _rect = pygame.Rect(0,0,wid, len)
     _rect.center = pos
     pygame.draw.rect(screen, color, _rect)
+    return _rect
 
 def draw_block_wline(pos, wid, len, color, l):
     _rect = pygame.Rect(0,0,wid, len)
     _rect.center = pos     
     pygame.draw.rect(screen, color, _rect, l)
+    return _rect
 
-def generateText(str, size, pos, color):
-    fonts = pygame.font.Font(cf.textFont, size)
+def generateText(str, size, pos, _font,color = (255,255,255)):
+    fonts = pygame.font.Font(_font, size)
     text = fonts.render(str, True, color)
     textRect = text.get_rect()
     textRect.center = pos
     screen.blit(text, textRect)
+    return textRect
 def draw_tri(color, vertices):
     pygame.draw.polygon(screen, color, vertices)
 
 def draw_tri_wline(color, vertices, l):
     pygame.draw.polygon(screen, color, vertices, l)
+
+def draw_sprite(sur, topleft):
+    screen.blit(sur,topleft)
 
 def draw_scene(Scene):
     s = scene.Scene_base()
@@ -71,6 +77,6 @@ def draw_scene(Scene):
     elif Scene == "Ready":
         s = scene.Ready()
     elif Scene == "Battle":
-        s = scene.Scene_base()
+        s = scene.Battle()
     s.generate()
     return s

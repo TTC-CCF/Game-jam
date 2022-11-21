@@ -1,15 +1,14 @@
 import pygame
 import config as cf
-import blocks
 import scene
-import draw
+import draw 
 pygame.init()
 pygame.display.set_caption("First Game")
 
 def main():
     running = True
+    clock = pygame.time.Clock()
     phase = draw.draw_scene(scene.Scene)
-
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -18,6 +17,7 @@ def main():
             if changeScene:
                 phase = draw.draw_scene(scene.Scene)
         draw.update(phase)
+        clock.tick(cf.delay)
                 
         
 if __name__=="__main__":
