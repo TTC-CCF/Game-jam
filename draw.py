@@ -4,9 +4,10 @@ import scene
 screen = pygame.display.set_mode((cf.win_width, cf.win_length))
 
 class button:
-    hover = False
-    clicked = False
+
     def __init__(self, text, pos, size):
+        self.clicked = False
+        self.hover = False
         self.pos = pos
         self.text = text
         self.size = size
@@ -20,14 +21,14 @@ class button:
         self.set_text(change_text)
         screen.blit(self.rend, self.rect)
     def set_rend(self):
-        self.rend = pygame.font.Font(cf.textFont, self.size).render(self.text, True, self.get_color())
+        self.rend = pygame.font.Font(cf.textFont1, self.size).render(self.text, True, self.get_color())
     def set_text(self, change_text):
-        self.rend = pygame.font.Font(cf.textFont, self.size).render(change_text, True, (255,255,255))
+        self.rend = pygame.font.Font(cf.textFont1, self.size).render(change_text, True, (255,255,255))
     def get_color(self):
         if self.hover:
-            return (150,150,150)
-        elif not self.hover:
             return (255,255,255)
+        else:
+            return (150,150,150)
         
     def set_rect(self):
         self.set_rend()
@@ -78,5 +79,7 @@ def draw_scene(Scene):
         s = scene.Ready()
     elif Scene == "Battle":
         s = scene.Battle()
+    elif Scene == "finish":
+        s = scene.Finish()
     s.generate()
     return s

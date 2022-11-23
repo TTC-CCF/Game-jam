@@ -13,9 +13,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            changeScene = phase.handle_event(event)
-            if changeScene:
-                phase = draw.draw_scene(scene.Scene)
+        changeScene = phase.handle_event()
+        if changeScene:
+            phase = draw.draw_scene(scene.Scene)
         draw.update(phase)
         clock.tick(cf.delay)
                 

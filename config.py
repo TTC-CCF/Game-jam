@@ -16,3 +16,5 @@ stage_edge_space = 100
 a = 0.4
 max_vel = 2
 delay = 60
+# bullet
+max_bullet = 4
