@@ -2,6 +2,8 @@ import pygame
 import config as cf
 import scene
 screen = pygame.display.set_mode((cf.win_width, cf.win_length))
+background = pygame.image.load(cf.bgs[cf.curbg])
+background = pygame.transform.scale(background,(cf.win_width,cf.win_length))
 
 class button:
 
@@ -35,9 +37,16 @@ class button:
         self.rect = self.rend.get_rect()
         self.rect.center = self.pos
 
+def changeBG(bg):
+    global background
+    background = pygame.image.load(bg)
+    background = pygame.transform.scale(background,(cf.win_width,cf.win_length))
 
+def showPicture(pic,topleft):
+    screen.blit(pic,topleft)
+    
 def update(phase):
-    screen.fill((0,0,0))
+    screen.blit(background,(0,0))
     phase.update()
     pygame.display.flip()
 
@@ -73,12 +82,16 @@ def draw_scene(Scene):
     s = scene.Scene_base()
     if Scene == "menu":
         s = scene.Menu()
+    elif Scene == "Option":
+        s = scene.Option()
     elif Scene == "ChooseCharacters":
         s = scene.Choose()
     elif Scene == "Ready":
         s = scene.Ready()
     elif Scene == "Battle":
         s = scene.Battle()
+    elif Scene == "nextround":
+        s = scene.NextRound()
     elif Scene == "finish":
         s = scene.Finish()
     s.generate()

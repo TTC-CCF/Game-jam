@@ -1,9 +1,14 @@
 # window config
 win_width = 1080
 win_length = 640
-# fonts
+# fonts``
 textFont1 = "gunmetl.ttf"
 textFont2 = "VCR_OSD_MONO_1.001.ttf"
+# background
+bgs = ["parallax-space-backgound.png",
+        "underwater-fantasy.png",
+        "parallax-mountain.png"]
+curbg = 0
 # characters
 CHARACTERS = 3
 # players
@@ -18,3 +23,8 @@ max_vel = 2
 delay = 60
 # bullet
 max_bullet = 4
+# rounds
+Round = 3
+numwin = 2
+# lives
+lives = 3
