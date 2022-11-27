@@ -4,8 +4,9 @@ import scene
 import draw 
 
 pygame.init()
-pygame.display.set_caption("First Game")
-
+pygame.display.set_caption("Just Brawl")
+icon = pygame.image.load("justbrawl.ico")
+pygame.display.set_icon(icon)
 def main():
     running = True
     clock = pygame.time.Clock()
